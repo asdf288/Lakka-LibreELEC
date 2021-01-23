@@ -3,8 +3,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="mesa"
-PKG_VERSION="20.2.6"
-PKG_SHA256="b15dafec2b62f23b3c9eec190c3fe2ac9e66602473bcb971910882db6a8f1f36"
+PKG_VERSION="20.3.3"
+PKG_SHA256="84e29a3830d4cf8e4440db11988391068c43f7e4ba314e64d9a3dd84c95d0d7c"
 PKG_LICENSE="OSS"
 PKG_SITE="http://www.mesa3d.org/"
 PKG_URL="https://github.com/mesa3d/mesa/archive/mesa-$PKG_VERSION.tar.gz"
@@ -21,7 +21,7 @@ PKG_MESON_OPTS_TARGET="-Ddri-drivers=${DRI_DRIVERS// /,} \
                        -Dgallium-omx=disabled \
                        -Dgallium-nine=false \
                        -Dgallium-opencl=disabled \
-                       -Dvulkan-drivers=auto \
+                       -Dvulkan-drivers= \
                        -Dshader-cache=true \
                        -Dshared-glapi=true \
                        -Dopengl=true \
@@ -43,16 +43,16 @@ fi
 if [ "$DISPLAYSERVER" = "x11" ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET xorgproto libXext libXdamage libXfixes libXxf86vm libxcb libX11 libxshmfence libXrandr libglvnd"
   export X11_INCLUDES=
-  PKG_MESON_OPTS_TARGET+=" -Dplatforms=x11,drm -Ddri3=true -Dglx=dri"
+  PKG_MESON_OPTS_TARGET+=" -Dplatforms=x11 -Ddri3=true -Dglx=dri"
 elif [ "$DISPLAYSERVER" = "weston" ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET wayland wayland-protocols"
-  PKG_MESON_OPTS_TARGET+=" -Dplatforms=wayland,drm -Ddri3=false -Dglx=disabled"
+  PKG_MESON_OPTS_TARGET+=" -Dplatforms=wayland -Ddri3=false -Dglx=disabled"
 elif [ "$DISTRO" = "Lakka" ]; then
   PKG_DEPENDS_TARGET+=" glproto dri2proto dri3proto presentproto xorgproto libXext libXdamage libXfixes libXxf86vm libxcb libX11 libxshmfence xrandr systemd openssl"
   export X11_INCLUDES=
-  PKG_MESON_OPTS_TARGET+=" -Dplatforms=x11,drm -Ddri3=true -Dglx=dri"
+  PKG_MESON_OPTS_TARGET+=" -Dplatforms=x11 -Ddri3=true -Dglx=dri"
 else
-  PKG_MESON_OPTS_TARGET+=" -Dplatforms=drm -Ddri3=false -Dglx=disabled"
+  PKG_MESON_OPTS_TARGET+=" -Dplatforms= -Ddri3=false -Dglx=disabled"
 fi
 
 if [ "$LLVM_SUPPORT" = "yes" ]; then
